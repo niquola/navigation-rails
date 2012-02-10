@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title Navigation
+    = stylesheet_link_tag    "application"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+body
+.top-navigation
+  - top_navigation.items.each do |item|
+    a(href=item.url)= item.label
+- if defined?(:second_navigation) && second_navigation.present?
+  .left-navigation
+    ul
+      - second_navigation.items.each do |item|
+        li
+          a(href=item.url)= item.label
+.content= yield
