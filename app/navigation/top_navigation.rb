@@ -3,6 +3,10 @@ class TopNavigation < Navigation::Base
     item('Home', root_path)
     item('Products', root_path)
     item('Contacts', root_path)
-    item('Login',login_path)  unless current_user.present?
+    if current_user.present?
+      item("#{current_user} Profile",login_path)
+    else
+      item('Login',login_path)
+    end
   end
 end

@@ -1,14 +1,17 @@
 module Navigation
   class Base
 
-    attr :items
     attr :controller
 
     def initialize(controller,opts)
       @opts = opts
       @controller = controller
       @items=[]
-      draw
+    end
+
+    def items
+      draw if @items.empty?
+      @items
     end
 
     def method_missing(name,*args)

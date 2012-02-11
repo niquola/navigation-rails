@@ -9,7 +9,7 @@ body
 .top-navigation
   - top_navigation.items.each do |item|
     a(href=item.url)= item.label
-- if defined?(:second_navigation) && second_navigation.present?
+- if navigation?(:second)
   .left-navigation
     ul
       - second_navigation.items.each do |item|

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   protected
   def current_user
-    nil
+    @current_user
   end
 
 end

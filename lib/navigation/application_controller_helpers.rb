@@ -2,11 +2,17 @@ module Navigation
   module ApplicationControllerHelpers
     def self.included(sub)
       sub.extend(ClassMethods)
+      sub.send(:helper_method,"navigation?")
+    end
+
+    def navigation?(name)
+      name = "#{name}_navigation"
+      defined?(name) && nav = self.send(name).present?
     end
 
     module ClassMethods
       def navigation(name,opts={})
-        accessor_name = opts.delete(:as) || "#{name}_navigation"
+        accessor_name = "#{opts.delete(:as) || name}_navigation"
         nav_class = "#{name}_navigation".classify.constantize
         init_method = "init_#{name}".to_sym
 
