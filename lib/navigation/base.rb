@@ -1,9 +1,20 @@
 module Navigation
   class Base
+    def group?; true; end
+
+    class Group < Base
+      attr :label
+
+      def initialize(context,opts)
+        @label = opts.delete(:label)
+        super(context,opts)
+      end
+    end
 
     attr :controller
+    attr :opts
 
-    def initialize(controller,opts)
+    def initialize(controller,opts={})
       @opts = opts
       @controller = controller
       @items=[]
@@ -14,17 +25,23 @@ module Navigation
       @items
     end
 
+    def group(label=nil,&block)
+      opts[:label] = label
+      group = Group.new(self,opts)
+      group.instance_eval(&block) if block_given?
+      @items<< group
+    end
+
     def method_missing(name,*args)
-      if controller.respond_to?(name)
-        controller.send(name,*args)
-      else
-        super
-      end
+      controller.send(name,*args)
     end
 
     class Item
       attr :label
       attr :url
+
+      def group?; false; end
+
       def initialize(label,url)
         @label,@url=label,url
       end

@@ -11,8 +11,13 @@ body
     a(href=item.url)= item.label
 - if navigation?(:second)
   .left-navigation
-    ul
-      - second_navigation.items.each do |item|
-        li
+    - second_navigation.items.each do |item|
+      - if item.group?
+        h3= item.label
+        - item.items.each do |item|
+          .nav-item
+            a(href=item.url)= item.label
+      - else
+        .nav-item
           a(href=item.url)= item.label
 .content= yield
