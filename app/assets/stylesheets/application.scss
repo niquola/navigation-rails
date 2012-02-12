@@ -23,6 +23,18 @@ body,html {
   padding:1em;
   border-right:1px solid #eee;
   margin-right:1em;
+  .nav-item {
+    display:block;
+    padding:.5ex 1em;
+    border-bottom:1px solid #ddd;
+  }
+  a {
+    color:#333;
+    text-decoration:none;
+  }
+  .submenu {
+    margin-left:1em;
+  }
 }
 .content {
   padding:1em;

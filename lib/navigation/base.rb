@@ -11,6 +11,28 @@ module Navigation
       end
     end
 
+    class Item < Group
+      attr :label
+      attr :url
+
+      def group?; false; end
+
+      def initialize(context,opts,&block)
+        @url= opts.delete(:url)
+        super(context,opts)
+        @items = []
+        @submenu = block if block_given?
+      end
+
+      def items
+        if @submenu
+          self.instance_eval(&@submenu)
+          @submenu = nil
+        end
+        @items
+      end
+    end
+
     attr :controller
     attr :opts
 
@@ -36,20 +58,11 @@ module Navigation
       controller.send(name,*args)
     end
 
-    class Item
-      attr :label
-      attr :url
-
-      def group?; false; end
-
-      def initialize(label,url)
-        @label,@url=label,url
-      end
-    end
 
 
-    def item(label,url)
-      @items<< Item.new(label,url)
+    def item(label,url,&block)
+      subopts = opts.clone.merge(:label=>label,:url=>url)
+      @items<< Item.new(self,subopts,&block)
     end
   end
 end

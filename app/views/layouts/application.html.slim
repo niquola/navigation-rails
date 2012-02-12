@@ -15,9 +15,11 @@ body
       - if item.group?
         h3= item.label
         - item.items.each do |item|
-          .nav-item
-            a(href=item.url)= item.label
+          a.nav-item(href=item.url)= item.label
       - else
-        .nav-item
-          a(href=item.url)= item.label
+        a.nav-item(href=item.url)= item.label
+        - if item.items.present?
+          .submenu
+            - item.items.each do |subitem|
+              a.nav-item(href=subitem.url)= subitem.label
 .content= yield
